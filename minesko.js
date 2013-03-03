@@ -64,7 +64,6 @@ function MineSweeperViewModel() {
 	//Operations
 	self.generateGrid = function () {
 		var grd = [];
-			//Get this out of here.
 		for (var i = 0; i < self.level().rows; i++) {
 			grd[i] = [];
 			for (var y = 0; y < self.level().cols; y++){
