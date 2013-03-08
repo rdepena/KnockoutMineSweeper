@@ -1,5 +1,4 @@
 //Mines using knockout JS
-
 function gridItem(x, y) {
 	var self = this;
 	//Data
@@ -9,12 +8,15 @@ function gridItem(x, y) {
 	self.numberOfBombs = ko.observable(0);
 	self.open = ko.observable(false);
 	self.display = ko.computed(function () {
+		var displayValue = "";
 		if (self.open()) {
-			if(self.isBomb())
-				return "b";
-			else 
-				return self.numberOfBombs() !== 0 ? self.numberOfBombs() : "";
+			if (self.isBomb()) {
+				displayValue = "b";
+			} else {
+				displayValue = self.numberOfBombs() !== 0 ? self.numberOfBombs() : "";
+			}
 		}
+		return displayValue;
 	});
 }
 
@@ -25,12 +27,8 @@ function Level(options) {
 	self.rows = options.rows;
 	self.cols = options.cols;
 	self.bombs = options.bombs;
-	self.winningCondition = function(openCells) {
-		var totalRows = self.rows * self.cols;
-		console.log(openCells);
-		console.log(totalRows);
-		console.log(self.bombs);
-		return openCells === totalRows - self.bombs;
+	self.winningCondition = function (openCells) {
+		return openCells === (self.rows * self.cols) - self.bombs;
 	};
 }
 
@@ -41,8 +39,8 @@ function MineSweeperViewModel() {
 	self.grid = ko.observableArray();
 	self.bombs = ko.observableArray();
 	self.level = ko.observable();
-	self.levels = 
-		[new Level({
+	self.levels = [
+		new Level({
 			description : "Easy",
 			rows : 9,
 			cols : 9,
@@ -89,8 +87,9 @@ function MineSweeperViewModel() {
 		var b;
 		(function getUnique() {
 			b = self.grid()[self.getRandomInt(0,self.level().rows -1)][self.getRandomInt(0, self.level().cols -1)];
-			while(b.isBomb())
+			while(b.isBomb()) {
 				getUnique();
+			}
 		})();
 			
 		b.isBomb(true);
@@ -99,20 +98,13 @@ function MineSweeperViewModel() {
 	
 	self.updateNeighbors = function (gridItem, callback) {
 		var withinBounds = function(x, y) {
-			if (x < 0 || x >= self.level().rows)
-				return false;
-			if (y < 0 || y >= self.level().cols)
-				return false;
-				
-			return true;
+			return  = !(x < 0 || x >= self.level().rows) || (y < 0 || y >= self.level().cols));
 		}
 		for (var x = gridItem.x - 1; x  <= gridItem.x + 1; x++) {
 			for (var y = gridItem.y - 1; y <= gridItem.y + 1; y++) {
-			
-				if(!withinBounds(x,y))
-					continue;
-				if (callback)
+				if (withinBounds(x,y) && callback) {
 					callback(self.grid()[x][y]);
+				}
 			}
 		}
 	}
@@ -127,8 +119,9 @@ function MineSweeperViewModel() {
 	
 	self.OpenItem = function (gridItem) {
 		
-		if (gridItem.open())
+		if (gridItem.open()) {
 			return;
+		}
 		
 		if (gridItem.isBomb()) {
 			self.endGameLose();
@@ -137,11 +130,13 @@ function MineSweeperViewModel() {
 		
 		gridItem.open(true);
 		self.openNum(self.openNum()+1);
-		if(gridItem.numberOfBombs() === 0)
+		if(gridItem.numberOfBombs() === 0) {
 			self.openEmptyItems(gridItem);
+		}
 			
-		if(self.level().winningCondition(self.openNum()))
+		if(self.level().winningCondition(self.openNum())) {
 			self.endGameWin();
+		}
 	
 	}
 	self.getRandomInt = function (min, max) {
