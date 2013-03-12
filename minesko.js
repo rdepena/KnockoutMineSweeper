@@ -1,4 +1,6 @@
 //Mines using knockout JS
+
+//GridItem Object
 function gridItem(x, y) {
 	var self = this;
 	//Data
@@ -20,6 +22,7 @@ function gridItem(x, y) {
 	});
 }
 
+//difficulty level Object
 function Level(options) {
 	var self = this;
 	options = options || {};
@@ -35,6 +38,7 @@ function Level(options) {
 function MineSweeperViewModel() {
 	var self = this;
 	//Data
+	self.activeGame = ko.observable(false);
 	self.openNum = ko.observable(0);
 	self.grid = ko.observableArray();
 	self.bombs = ko.observableArray();
@@ -70,6 +74,7 @@ function MineSweeperViewModel() {
 		}
 		self.grid(grd);
 		self.generateBombs();
+		self.activeGame(true);
 	}
 	
 	self.generateBombs = function () {
@@ -122,7 +127,7 @@ function MineSweeperViewModel() {
 	
 	self.OpenItem = function (gridItem) {
 		
-		if (gridItem.open()) {
+		if (!self.activeGame() || gridItem.open()) {
 			return;
 		}
 		
@@ -148,11 +153,13 @@ function MineSweeperViewModel() {
 
 	self.endGameLose = function () {
 		self.displayAllBombs();
+		self.activeGame(false);
 		alert("Lost.");
 	}
 	
 	self.endGameWin = function () {
 		self.displayAllBombs();
+		self.activeGame(false);
 		alert("You are a Winrar!!!");
 	}
 	

@@ -3,6 +3,3 @@ TODO:
 	Fix html.
 	Make UI nice.
 	Refactor.
-
-BUGS:
-	Game keeps playing after player looses.	
