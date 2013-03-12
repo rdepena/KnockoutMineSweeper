@@ -98,7 +98,10 @@ function MineSweeperViewModel() {
 	
 	self.updateNeighbors = function (gridItem, callback) {
 		var withinBounds = function(x, y) {
-			return  = !(x < 0 || x >= self.level().rows) || (y < 0 || y >= self.level().cols));
+			 if ((x < 0 || x >= self.level().rows) || (y < 0 || y >= self.level().cols)) {
+				return false;
+			 }
+			 return true;
 		}
 		for (var x = gridItem.x - 1; x  <= gridItem.x + 1; x++) {
 			for (var y = gridItem.y - 1; y <= gridItem.y + 1; y++) {
