@@ -1,14 +1,29 @@
-var Timer = new function () {
+var Timer = function () {
 	var self = this;
-	self.callback = {};
-	self.tick = function () {
-		//So you know I am working.
-		console.log("tick");
-		self.callback();
-		setTimeout(Timer.tick, 1000);
+	var	seconds = 0;
+	var	minutes = 0;
+	tick = function () {
+		if(self.stopTimer) {
+			self.stopTimer = null;
+			return;
+		}
+		seconds = (seconds + 1) % 60;
+		if(seconds === 0) {
+			minutes = (minutes + 1) % 60;
+		}
+		self.callback({seconds:seconds, minutes:minutes});
+		setTimeout(tick, 1000);
 	}
-	self.start = function (callback) {
+	start = function (callback) {
 		self.callback = callback;
-		self.tick();
+		tick();
 	}
+	stop = function () {
+		self.stopTimer = true;
+	}
+	return { 
+		tick : tick, 
+		start : start,
+		stop : stop
+	};
 };

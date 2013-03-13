@@ -43,6 +43,17 @@ function MineSweeperViewModel() {
 	self.grid = ko.observableArray();
 	self.bombs = ko.observableArray();
 	self.level = ko.observable();
+	self.seconds = ko.observable(0);
+	self.minutes = ko.observable(0); 
+	self.timeDisplay = function (t) {
+		return t < 9 ? "0" + t : t;
+	}
+	self.secondsDisplay = ko.computed(function () {
+		return self.timeDisplay(self.seconds());
+	});
+	self.minutesDisplay = ko.computed(function () {
+			return self.timeDisplay(self.minutes());
+	});
 	self.levels = [
 		new Level({
 			description : "Easy",
@@ -75,6 +86,15 @@ function MineSweeperViewModel() {
 		self.grid(grd);
 		self.generateBombs();
 		self.activeGame(true);
+		self.seconds(0);
+		self.minutes(0);
+		
+		self.timer = Timer();
+		console.log(self.timer);
+		self.timer.start(function(t) {
+			self.seconds(t.seconds);
+			self.minutes(t.minutes);
+		});
 	}
 	
 	self.generateBombs = function () {
@@ -154,12 +174,14 @@ function MineSweeperViewModel() {
 	self.endGameLose = function () {
 		self.displayAllBombs();
 		self.activeGame(false);
+		self.timer.stop();
 		alert("Lost.");
 	}
 	
 	self.endGameWin = function () {
 		self.displayAllBombs();
 		self.activeGame(false);
+		self.timer.stop();
 		alert("You are a Winrar!!!");
 	}
 	

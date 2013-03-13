@@ -18,6 +18,7 @@
 
   <body>
 	<div class="container" id="content">
+		<div id="Watch"><label data-bind="text:minutesDisplay"></label>:<label data-bind="text:secondsDisplay"></label></div>
 		<label></label>
 		<select data-bind="options: $root.levels, optionsText:'description', value: level">		
 		</select>
@@ -30,6 +31,7 @@
 		</tbody>
 		</table>
 	</div> 
-	 <script src="minesko.js" type="text/javascript"></script>
+	 <script src="timer.js" type="text/javascript"></script>
+	<script src="minesko.js" type="text/javascript"></script>
 	 </body>
 </html>
