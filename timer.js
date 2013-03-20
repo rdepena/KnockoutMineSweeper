@@ -1,10 +1,10 @@
-var Timer = function () {
+
+mineSweeper.Timer = function () {
 	var self = this;
 	var	seconds = 0;
 	var	minutes = 0;
 	tick = function () {
 		if(self.stopTimer) {
-			self.stopTimer = null;
 			return;
 		}
 		seconds = (seconds + 1) % 60;
@@ -15,6 +15,7 @@ var Timer = function () {
 		setTimeout(tick, 1000);
 	}
 	start = function (callback) {
+		self.stopTimer = false;
 		self.callback = callback;
 		tick();
 	}

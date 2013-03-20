@@ -1,41 +1,5 @@
 //Mines using knockout JS
-
-//GridItem Object
-function gridItem(x, y) {
-	var self = this;
-	//Data
-	self.x = x;
-	self.y = y;
-	self.isBomb = ko.observable(false);
-	self.numberOfBombs = ko.observable(0);
-	self.open = ko.observable(false);
-	self.display = ko.computed(function () {
-		var displayValue = "";
-		if (self.open()) {
-			if (self.isBomb()) {
-				displayValue = "b";
-			} else {
-				displayValue = self.numberOfBombs() !== 0 ? self.numberOfBombs() : "";
-			}
-		}
-		return displayValue;
-	});
-}
-
-//difficulty level Object
-function Level(options) {
-	var self = this;
-	options = options || {};
-	self.description = options.description;
-	self.rows = options.rows;
-	self.cols = options.cols;
-	self.bombs = options.bombs;
-	self.winningCondition = function (openCells) {
-		return openCells === (self.rows * self.cols) - self.bombs;
-	};
-}
-
-function MineSweeperViewModel() {
+mineSweeper.MineSweeperViewModel = function() {
 	var self = this;
 	//Data
 	self.activeGame = ko.observable(false);
@@ -55,19 +19,19 @@ function MineSweeperViewModel() {
 			return self.timeDisplay(self.minutes());
 	});
 	self.levels = [
-		new Level({
+		new mineSweeper.Level({
 			description : "Easy",
 			rows : 9,
 			cols : 9,
 			bombs : 10
 		}),
-		new Level({
+		new mineSweeper.Level({
 			description: "Intermediate",
 			rows : 16,
 			cols : 16,
 			bombs : 40
 		}),
-		new Level({
+		new mineSweeper.Level({
 			description: "Hard",
 			rows : 30,
 			cols : 16,
@@ -80,7 +44,7 @@ function MineSweeperViewModel() {
 		for (var i = 0; i < self.level().rows; i++) {
 			grd[i] = [];
 			for (var y = 0; y < self.level().cols; y++){
-				grd[i][y] = new gridItem(i,y);
+				grd[i][y] = new mineSweeper.gridItem(i,y);
 			}
 		}
 		self.grid(grd);
@@ -89,7 +53,7 @@ function MineSweeperViewModel() {
 		self.seconds(0);
 		self.minutes(0);
 		
-		self.timer = Timer();
+		self.timer = mineSweeper.Timer();
 		console.log(self.timer);
 		self.timer.start(function(t) {
 			self.seconds(t.seconds);
@@ -191,5 +155,3 @@ function MineSweeperViewModel() {
 			}
 	}
 }
-
-ko.applyBindings(new MineSweeperViewModel());
