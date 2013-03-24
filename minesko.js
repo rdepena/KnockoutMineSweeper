@@ -1,5 +1,6 @@
 //Mines using knockout JS
-mineSweeper.MineSweeperViewModel = function() {
+mineSweeper.MineSweeperViewModel = function () {
+	"use strict";
 	var self = this;
 	//Data
 	self.activeGame = ko.observable(false);
@@ -8,7 +9,7 @@ mineSweeper.MineSweeperViewModel = function() {
 	self.bombs = ko.observableArray();
 	self.level = ko.observable();
 	self.seconds = ko.observable(0);
-	self.minutes = ko.observable(0); 
+	self.minutes = ko.observable(0);
 	self.timeDisplay = function (t) {
 		return t < 9 ? "0" + t : t;
 	}
@@ -40,11 +41,13 @@ mineSweeper.MineSweeperViewModel = function() {
 
 	//Operations
 	self.generateGrid = function () {
+	    self.activeGame(false);
+    	self.openNum(0);
 		var grd = [];
 		for (var i = 0; i < self.level().rows; i++) {
 			grd[i] = [];
 			for (var y = 0; y < self.level().cols; y++){
-				grd[i][y] = new mineSweeper.gridItem(i,y);
+				grd[i][y] = new mineSweeper.GridItem(i,y);
 			}
 		}
 		self.grid(grd);
@@ -54,13 +57,11 @@ mineSweeper.MineSweeperViewModel = function() {
 		self.minutes(0);
 		
 		self.timer = mineSweeper.Timer();
-		console.log(self.timer);
 		self.timer.start(function(t) {
 			self.seconds(t.seconds);
 			self.minutes(t.minutes);
 		});
 	}
-	
 	self.generateBombs = function () {
 		self.bombs(new Array());
 		for (var i = 0; i < self.level().bombs; i++) {
@@ -99,16 +100,7 @@ mineSweeper.MineSweeperViewModel = function() {
 				}
 			}
 		}
-	}
-	
-	self.openEmptyItems = function (gridItem) {
-		self.updateNeighbors(gridItem, function (gridElem) {
-			if (!gridElem.isBomb()  && !gridElem.open()) {
-				self.OpenItem(gridElem);
-			}
-		});
-	}
-	
+	}	
 	self.OpenItem = function (gridItem) {
 		
 		if (!self.activeGame() || gridItem.open()) {
@@ -119,15 +111,17 @@ mineSweeper.MineSweeperViewModel = function() {
 			self.endGameLose();
 			return;
 		}
-		
 		gridItem.open(true);
 		self.openNum(self.openNum()+1);
-		if(gridItem.numberOfBombs() === 0) {
-			self.openEmptyItems(gridItem);
-		}
-			
 		if(self.level().winningCondition(self.openNum())) {
 			self.endGameWin();
+		}
+		if(gridItem.numberOfBombs() === 0) {
+			self.updateNeighbors(gridItem, function (gridElem) {
+				if(!gridElem.isBomb()) {
+				    self.OpenItem(gridElem);
+				}
+    		});
 		}
 	
 	}
@@ -139,7 +133,7 @@ mineSweeper.MineSweeperViewModel = function() {
 		self.displayAllBombs();
 		self.activeGame(false);
 		self.timer.stop();
-		alert("Lost.");
+		alert("you blew up.");
 	}
 	
 	self.endGameWin = function () {

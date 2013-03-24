@@ -1,5 +1,6 @@
 //GridItem Object
-mineSweeper.gridItem = function(x, y) {
+mineSweeper.GridItem = function (x, y) {
+	"use strict";
 	var self = this;
 	//Data
 	self.x = x;
