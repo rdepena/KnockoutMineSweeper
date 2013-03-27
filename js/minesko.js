@@ -41,8 +41,8 @@ mineSweeper.MineSweeperViewModel = function () {
 
 	//Operations
 	self.generateGrid = function () {
-	    self.activeGame(false);
-    	self.openNum(0);
+		self.activeGame(false);
+		self.openNum(0);
 		var grd = [];
 		for (var i = 0; i < self.level().rows; i++) {
 			grd[i] = [];
@@ -145,7 +145,7 @@ mineSweeper.MineSweeperViewModel = function () {
 	
 	self.displayAllBombs = function () {
 		for (var i = 0; i < self.bombs().length; i++) {
-				self.bombs()[i].open(true);
-			}
+			self.bombs()[i].open(true);
+		}
 	}
 }

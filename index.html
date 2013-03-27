@@ -20,11 +20,8 @@
 		}); 
 		
 	</script>
-	<style>
-	.sweepButton {width:30px;height:30px;}
-	</style>
     <!-- styles -->
-	
+	<link href="assets/style.css" media="screen" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -35,12 +32,12 @@
 		</select>
 		<button data-bind="click: generateGrid">Start Game!</button>
 		<table>
-		<tbody data-bind="foreach: grid" >
+		<tbody class="grid" data-bind="foreach: grid" >
 			<tr data-bind="foreach: $data">
-				<td><button class="sweepButton" data-bind="text: $data.display, click: $root.OpenItem, enable: !$data.open()"></button></td>
+				<td><button class="sweepButton" data-bind="text: $data.display, click: $root.OpenItem, enable: !$data.open(), css:$data.displayClass"></button></td>
 			</tr>
 		</tbody>
 		</table>
-	</div> 
+	</div>
 	 </body>
 </html>

@@ -1,5 +1,0 @@
-TODO:
-	Create a timer.
-	Fix html.
-	Make UI nice.
-	Refactor.
