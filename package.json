@@ -1,0 +1,35 @@
+{
+  "name": "KnockoutMineSweeper",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.2.x",
+    "ejs": "0.8.x",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-nodeunit": "~0.2.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat" : "~0.x.x"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "readmeFilename": "README.MD",
+  "gitHead": "7e5bad1d849b0e4012b4847355b2fdff22feef0a",
+  "description": "ERROR: No README.md file found!",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "BSD"
+}

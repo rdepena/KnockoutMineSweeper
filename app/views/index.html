@@ -6,22 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-	<!-- Javascript Goes Here -->
-	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
-	<script src="js/application.js"></script>
-	<script src="js/level.js"></script>
-	<script src="js/gridItem.js"></script>
-	<script src="js/minesko.js"></script>
-	<script src="js/timer.js"></script>
-	<script>
-		 $(function() {
-			ko.applyBindings(new mineSweeper.MineSweeperViewModel());
-		}); 
-		
-	</script>
     <!-- styles -->
-	<link href="assets/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="css/style.css" media="screen" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -39,5 +25,15 @@
 		</tbody>
 		</table>
 	</div>
+	<!-- Javascript Goes Here -->
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+	<script src="js/dist/komines.js"></script>
+	<script>
+		 $(function() {
+			ko.applyBindings(new mineSweeper.MineSweeperViewModel());
+		}); 
+		
+	</script>
 	 </body>
 </html>
