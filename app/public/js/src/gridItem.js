@@ -4,23 +4,23 @@
 	//GridItem Object
 	mineSweeper.GridItem = function (x, y) {
 
-		var self = this;
+		var my = this;
 		//Data
-		self.x = x;
-		self.y = y;
-		self.isBomb = ko.observable(false);
-		self.numberOfBombs = ko.observable(0);
-		self.open = ko.observable(false);
-		self.displayClass = ko.computed( function () {
-			if (self.isBomb() && self.open()) {
-				return "bomb";
+		my.x = x;
+		my.y = y;
+		my.isBomb = ko.observable(false);
+		my.numberOfBombs = ko.observable(0);
+		my.open = ko.observable(false);
+		my.displayClass = ko.computed( function () {
+			if (my.isBomb() && my.open()) {
+				return "topcoat-notification";
 			}
-			return mineSweeper.numberClasses[self.numberOfBombs()];
+			return mineSweeper.numberClasses[my.numberOfBombs()];
 		});
-		self.display = ko.computed(function () {
+		my.display = ko.computed(function () {
 			var displayValue = "";
-			if (self.open() && !self.isBomb()) {
-				displayValue = self.numberOfBombs() !== 0 ? self.numberOfBombs() : "";
+			if (my.open() && !my.isBomb()) {
+				displayValue = my.numberOfBombs() !== 0 ? my.numberOfBombs() : "";
 			}
 			return displayValue;
 		});

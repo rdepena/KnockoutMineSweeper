@@ -1,34 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>KnockOut Mine Sweeper</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- styles -->
+	<head>
+	<meta charset="utf-8">
+	<title>KnockOut Mine Sweeper</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- styles -->
 	<link href="css/style.css" media="screen" rel="stylesheet" type="text/css">
-  </head>
+	<link rel="stylesheet" type="text/css" href="css/topcoat-desktop-dark.min.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/brackets.css">
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body class="dark">
+	<div id="wrapper">
+		<header id="main-header">
+			<div class="max-width">
+				<hgroup>
+					<h1>
+						<a href="#/">Minesweeper</a>
+					</h1>
+					<p>Knockout based Minesweeper</p>
+				</hgroup>
+			</div>
+		</header>
+		<div class="max-width" id="content">
+			<div id="Watch">
+				<label data-bind="text:minutesDisplay"></label>:<label data-bind="text:secondsDisplay"></label>
+			</div>
+			<div class="combo">
+				<select class="docNav" data-bind="options: $root.levels, optionsText:'description', value: level">		
+				</select>
 
-  <body>
-	<div class="container" id="content">
-		<div id="Watch"><label data-bind="text:minutesDisplay"></label>:<label data-bind="text:secondsDisplay"></label></div>
-		<label></label>
-		<select data-bind="options: $root.levels, optionsText:'description', value: level">		
-		</select>
-		<button data-bind="click: generateGrid">Start Game!</button>
-		<table>
-		<tbody class="grid" data-bind="foreach: grid" >
-			<tr data-bind="foreach: $data">
-				<td><button class="sweepButton" data-bind="text: $data.display, click: $root.OpenItem, enable: !$data.open(), css:$data.displayClass"></button></td>
-			</tr>
-		</tbody>
-		</table>
+				<button class="topcoat-button--large--cta" data-bind="click: generateGrid">Start Game!</button>
+			</div>
+				<div style="display: none;" id="game-lost">
+				<span class="topcoat-notification">You Lost!!</span>
+			</div>
+			<div style="display: none;" class="max-width" id="game-won">
+				<span class="">You Won!!</span>
+			</div>
+			<table>
+			<tbody class="grid" data-bind="foreach: grid" >
+				<tr data-bind="foreach: $data">
+					<td><button class="topcoat-button--large sweepButton" data-bind="text: $data.display, click: $root.OpenItem, enable: !$data.open(), css:$data.displayClass"></button></td>
+				</tr>
+			</tbody>
+			</table>	
+		</div>
+
 	</div>
 	<!-- Javascript Goes Here -->
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
-	<script src="js/dist/komines.js"></script>
+	<script src="js/dist/komines.min.js"></script>
 	<script>
 		 $(function() {
 			ko.applyBindings(new mineSweeper.MineSweeperViewModel());

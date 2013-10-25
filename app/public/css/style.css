@@ -11,22 +11,22 @@
 	margin-left:1%;
 }
 .one {
-	color:#0000FF;
+	color:#0000FF !Important;
 }
 .two {
-	color:#3C933C;
+	color:#3C933C !Important;
 }
 .three {
-	color:#FF0000;
+	color:#FF0000 !Important;
 }
 .four {
-	color:#04047D;
+	color:#04047D !Important;
 }
 .five {
-	color:#840000;
+	color:#840000 !Important;
 }
 .six {
-	color:#018286;
+	color:#018286 !Important;
 }
 .bomb {
 	background:url(mines.png) no-repeat

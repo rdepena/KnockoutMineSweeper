@@ -27,13 +27,26 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		uglify: {
+			options: {
+				mangle: {
+					except: []
+				}
+			},
+			my_target: {
+				files: {
+					'app/public/js/dist/komines.min.js': ['app/public/js/dist/komines.js']
+				}
+			}
+		}
 
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	grunt.registerTask('test', ['jshint']);
-	grunt.registerTask('default', ['jshint', 'concat']);
+	grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 };

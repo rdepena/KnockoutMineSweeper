@@ -4,17 +4,17 @@
 	//difficulty level Object
 	mineSweeper.Level = function (options) {
 
-		var self = this;
+		var my = this;
 		options = options || {};
-		self.description = options.description;
-		self.rows = options.rows;
-		self.cols = options.cols;
-		self.bombs = options.bombs;
-		self.winningCondition = function (openCells) {
-			return openCells === (self.rows * self.cols) - self.bombs;
+		my.description = options.description;
+		my.rows = options.rows;
+		my.cols = options.cols;
+		my.bombs = options.bombs;
+		my.winningCondition = function (openCells) {
+			return openCells === (my.rows * my.cols) - my.bombs;
 		};
 
-		return self;
+		return my;
 	};
 
 }(this.mineSweeper = this.mineSweeper || {}));

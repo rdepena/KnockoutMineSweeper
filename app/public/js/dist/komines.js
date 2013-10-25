@@ -4,23 +4,23 @@ window.mineSweeper = {};;(function(mineSweeper) {
 	//GridItem Object
 	mineSweeper.GridItem = function (x, y) {
 
-		var self = this;
+		var my = this;
 		//Data
-		self.x = x;
-		self.y = y;
-		self.isBomb = ko.observable(false);
-		self.numberOfBombs = ko.observable(0);
-		self.open = ko.observable(false);
-		self.displayClass = ko.computed( function () {
-			if (self.isBomb() && self.open()) {
-				return "bomb";
+		my.x = x;
+		my.y = y;
+		my.isBomb = ko.observable(false);
+		my.numberOfBombs = ko.observable(0);
+		my.open = ko.observable(false);
+		my.displayClass = ko.computed( function () {
+			if (my.isBomb() && my.open()) {
+				return "topcoat-notification";
 			}
-			return mineSweeper.numberClasses[self.numberOfBombs()];
+			return mineSweeper.numberClasses[my.numberOfBombs()];
 		});
-		self.display = ko.computed(function () {
+		my.display = ko.computed(function () {
 			var displayValue = "";
-			if (self.open() && !self.isBomb()) {
-				displayValue = self.numberOfBombs() !== 0 ? self.numberOfBombs() : "";
+			if (my.open() && !my.isBomb()) {
+				displayValue = my.numberOfBombs() !== 0 ? my.numberOfBombs() : "";
 			}
 			return displayValue;
 		});
@@ -35,17 +35,17 @@ window.mineSweeper = {};;(function(mineSweeper) {
 	//difficulty level Object
 	mineSweeper.Level = function (options) {
 
-		var self = this;
+		var my = this;
 		options = options || {};
-		self.description = options.description;
-		self.rows = options.rows;
-		self.cols = options.cols;
-		self.bombs = options.bombs;
-		self.winningCondition = function (openCells) {
-			return openCells === (self.rows * self.cols) - self.bombs;
+		my.description = options.description;
+		my.rows = options.rows;
+		my.cols = options.cols;
+		my.bombs = options.bombs;
+		my.winningCondition = function (openCells) {
+			return openCells === (my.rows * my.cols) - my.bombs;
 		};
 
-		return self;
+		return my;
 	};
 
 }(this.mineSweeper = this.mineSweeper || {}));
@@ -54,28 +54,28 @@ window.mineSweeper = {};;(function(mineSweeper) {
 	"use strict";
 	//Mines using knockout JS
 	mineSweeper.MineSweeperViewModel = function () {
-		var self = this;
+		var my = this;
 		//Data
-		self.activeGame = ko.observable(false);
-		self.openNum = ko.observable(0);
-		self.grid = ko.observableArray();
-		self.bombs = ko.observableArray();
-		self.level = ko.observable();
-		self.seconds = ko.observable(0);
-		self.minutes = ko.observable(0);
+		my.activeGame = ko.observable(false);
+		my.openNum = ko.observable(0);
+		my.grid = ko.observableArray();
+		my.bombs = ko.observableArray();
+		my.level = ko.observable();
+		my.seconds = ko.observable(0);
+		my.minutes = ko.observable(0);
 
-		self.timeDisplay = function (t) {
+		my.timeDisplay = function (t) {
 			return t < 9 ? "0" + t : t;
 		};
 
-		self.secondsDisplay = ko.computed(function () {
-			return self.timeDisplay(self.seconds());
+		my.secondsDisplay = ko.computed(function () {
+			return my.timeDisplay(my.seconds());
 		});
-		self.minutesDisplay = ko.computed(function () {
-				return self.timeDisplay(self.minutes());
+		my.minutesDisplay = ko.computed(function () {
+				return my.timeDisplay(my.minutes());
 		});
 
-		self.levels = [
+		my.levels = [
 			new mineSweeper.Level({
 				description : "Easy",
 				rows : 9,
@@ -96,47 +96,49 @@ window.mineSweeper = {};;(function(mineSweeper) {
 			})];
 
 		//Operations
-		self.generateGrid = function () {
-			self.activeGame(false);
-			self.openNum(0);
+		my.generateGrid = function () {
+			my.activeGame(false);
+			my.openNum(0);
 			var grd = [];
-			for (var i = 0; i < self.level().rows; i++) {
+			for (var i = 0; i < my.level().rows; i++) {
 				grd[i] = [];
-				for (var y = 0; y < self.level().cols; y++){
+				for (var y = 0; y < my.level().cols; y++){
 					grd[i][y] = new mineSweeper.GridItem(i,y);
 				}
 			}
-			self.grid(grd);
-			self.generateBombs();
-			self.activeGame(true);
-			self.seconds(0);
-			self.minutes(0);
+			my.grid(grd);
+			my.generateBombs();
+			my.activeGame(true);
+			my.seconds(0);
+			my.minutes(0);
 			
-			self.timer = mineSweeper.Timer();
-			self.timer.start(function(t) {
-				self.seconds(t.seconds);
-				self.minutes(t.minutes);
+			my.timer = mineSweeper.Timer();
+			my.timer.start(function(t) {
+				my.seconds(t.seconds);
+				my.minutes(t.minutes);
 			});
+			$("#game-lost").hide();
+			$("#game-won").hide();
 		};
 
-		self.generateBombs = function () {
-			self.bombs([]);
+		my.generateBombs = function () {
+			my.bombs([]);
 
 			var updateAdjacent = function (gridElem) {
 				gridElem.numberOfBombs(gridElem.numberOfBombs() + 1);
 			};
 
-			for (var i = 0; i < self.level().bombs; i++) {
-				var bomb = self.generateSingleBomb();
-				self.bombs().push(bomb);
-				self.updateNeighbors(bomb, updateAdjacent);
+			for (var i = 0; i < my.level().bombs; i++) {
+				var bomb = my.generateSingleBomb();
+				my.bombs().push(bomb);
+				my.updateNeighbors(bomb, updateAdjacent);
 			}
 		};
 		
-		self.generateSingleBomb = function () {
+		my.generateSingleBomb = function () {
 			var b;
 			(function getUnique() {
-				b = self.grid()[self.getRandomInt(0,self.level().rows -1)][self.getRandomInt(0, self.level().cols -1)];
+				b = my.grid()[my.getRandomInt(0,my.level().rows -1)][my.getRandomInt(0, my.level().cols -1)];
 				while(b.isBomb()) {
 					getUnique();
 				}
@@ -146,9 +148,9 @@ window.mineSweeper = {};;(function(mineSweeper) {
 			return b;
 		};
 		
-		self.updateNeighbors = function (gridItem, callback) {
+		my.updateNeighbors = function (gridItem, callback) {
 			var withinBounds = function(x, y) {
-				if ((x < 0 || x >= self.level().rows) || (y < 0 || y >= self.level().cols)) {
+				if ((x < 0 || x >= my.level().rows) || (y < 0 || y >= my.level().cols)) {
 					return false;
 				}
 				return true;
@@ -156,85 +158,85 @@ window.mineSweeper = {};;(function(mineSweeper) {
 			for (var x = gridItem.x - 1; x  <= gridItem.x + 1; x++) {
 				for (var y = gridItem.y - 1; y <= gridItem.y + 1; y++) {
 					if (withinBounds(x,y) && callback) {
-						callback(self.grid()[x][y]);
+						callback(my.grid()[x][y]);
 					}
 				}
 			}
 		};
-		self.OpenItem = function (gridItem) {
+		my.OpenItem = function (gridItem) {
 			
-			if (!self.activeGame() || gridItem.open()) {
+			if (!my.activeGame() || gridItem.open()) {
 				return;
 			}
 			
 			if (gridItem.isBomb()) {
-				self.endGameLose();
+				my.endGameLose();
 				return;
 			}
 			gridItem.open(true);
-			self.openNum(self.openNum()+1);
-			if(self.level().winningCondition(self.openNum())) {
-				self.endGameWin();
+			my.openNum(my.openNum()+1);
+			if(my.level().winningCondition(my.openNum())) {
+				my.endGameWin();
 			}
 			if(gridItem.numberOfBombs() === 0) {
-				self.updateNeighbors(gridItem, function (gridElem) {
+				my.updateNeighbors(gridItem, function (gridElem) {
 					if(!gridElem.isBomb()) {
-						self.OpenItem(gridElem);
+						my.OpenItem(gridElem);
 					}
 				});
 			}
 		};
-		self.getRandomInt = function (min, max) {
+		my.getRandomInt = function (min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		};
 
-		self.endGameLose = function () {
-			self.displayAllBombs();
-			self.activeGame(false);
-			self.timer.stop();
-			alert("you blew up.");
+		my.endGameLose = function () {
+			my.displayAllBombs();
+			my.activeGame(false);
+			my.timer.stop();
+			$("#game-lost").show();
 		};
 		
-		self.endGameWin = function () {
-			self.displayAllBombs();
-			self.activeGame(false);
-			self.timer.stop();
-			alert("You are a Winrar!!!");
+		my.endGameWin = function () {
+			my.displayAllBombs();
+			my.activeGame(false);
+			my.timer.stop();
+			$("#game-won").show();
 		};
 		
-		self.displayAllBombs = function () {
-			for (var i = 0; i < self.bombs().length; i++) {
-				self.bombs()[i].open(true);
+		my.displayAllBombs = function () {
+			for (var i = 0; i < my.bombs().length; i++) {
+				my.bombs()[i].open(true);
 			}
 		};
 	};
 } (this.mineSweeper = this.mineSweeper || {}));;(function (mineSweeper) {
 	"use strict";
 	mineSweeper.Timer = function () {
-		var self = this;
+		var my = this;
 		var	seconds = 0;
 		var	minutes = 0;
 
 		var tick = function () {
-			if(self.stopTimer) {
+			if(my.stopTimer) {
 				return;
 			}
 			seconds = (seconds + 1) % 60;
 			if(seconds === 0) {
 				minutes = (minutes + 1) % 60;
 			}
-			self.callback({seconds:seconds, minutes:minutes});
+			my.callback({seconds:seconds, minutes:minutes});
 			setTimeout(tick, 1000);
 		};
 
 		var start = function (callback) {
-			self.stopTimer = false;
-			self.callback = callback;
+			my.stopTimer = false;
+			my.callback = callback;
 			tick();
 		};
 
 		var stop = function () {
-			self.stopTimer = true;
+			my.stopTimer = true;
 		};
 
 		return { 
