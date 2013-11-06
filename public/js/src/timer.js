@@ -2,29 +2,31 @@
 	"use strict";
 	mineSweeper.Timer = function () {
 		var my = this;
-		var	seconds = 0;
-		var	minutes = 0;
+		var timerRunning = false;
+		var timeInSeconds = 0;
 
 		var tick = function () {
-			if(my.stopTimer) {
+			if(!timerRunning) {
 				return;
 			}
-			seconds = (seconds + 1) % 60;
-			if(seconds === 0) {
-				minutes = (minutes + 1) % 60;
-			}
-			my.callback({seconds:seconds, minutes:minutes});
+			timeInSeconds++;
+			my.callback({seconds:(timeInSeconds % 60), 
+				minutes:Math.floor(timeInSeconds / 60)});
 			setTimeout(tick, 1000);
 		};
 
 		var start = function (callback) {
-			my.stopTimer = false;
+			timeInSeconds = 0;
 			my.callback = callback;
-			tick();
+			if(!timerRunning) {
+				timerRunning = true;
+				tick();
+			}
 		};
 
 		var stop = function () {
-			my.stopTimer = true;
+			timeInSeconds = 0;
+			timerRunning = false;
 		};
 
 		return { 

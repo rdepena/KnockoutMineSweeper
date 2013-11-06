@@ -12,6 +12,7 @@
 		my.level = ko.observable();
 		my.seconds = ko.observable(0);
 		my.minutes = ko.observable(0);
+		my.timer = mineSweeper.Timer();
 
 		my.timeDisplay = function (t) {
 			return t < 9 ? "0" + t : t;
@@ -60,8 +61,6 @@
 			my.activeGame(true);
 			my.seconds(0);
 			my.minutes(0);
-			
-			my.timer = mineSweeper.Timer();
 			my.timer.start(function(t) {
 				my.seconds(t.seconds);
 				my.minutes(t.minutes);

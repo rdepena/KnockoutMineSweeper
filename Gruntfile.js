@@ -6,17 +6,17 @@ module.exports = function(grunt) {
 				separator : ";"
 			},
 			dist : {
-				src : ['app/public/js/src/*.js'],
-				dest: 'app/public/js/dist/komines.js'
+				src : ['public/js/src/*.js'],
+				dest: 'public/js/dist/komines.js'
 			}
 		},
 		watch: {
-			files: ['gruntfile.js', 'app/public/js/src/*.js', 'app/server.js'],
-			tasks: ['jshint', 'concat']
+			files: ['gruntfile.js', 'public/js/src/*.js', 'server.js'],
+			tasks:  ['jshint', 'concat', 'uglify']
 		},
 		jshint: {
 			// define the files to lint
-			files: ['gruntfile.js', 'test/unit/*.js', 'app/public/js/src/*.js', 'app/server.js', 'app/src/*.js'],
+			files: ['gruntfile.js', 'test/unit/*.js', 'public/js/src/*.js', 'server.js', 'src/*.js'],
 			// configure JSHint (documented at http://www.jshint.com/docs/)
 			options: {
 				// more options here if you want to override JSHint defaults
@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 			},
 			my_target: {
 				files: {
-					'app/public/js/dist/komines.min.js': ['app/public/js/dist/komines.js']
+					'public/js/dist/komines.min.js': ['public/js/dist/komines.js']
 				}
 			}
 		}
