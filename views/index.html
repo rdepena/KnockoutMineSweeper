@@ -20,11 +20,14 @@
 			<div class="max-width">
 				<hgroup>
 					<h1>
-						<a href="#/">Minesweeper</a>
+						Minesweeper
 					</h1>
-					<p>Knockout based Minesweeper</p>
+					<p>Play some Minesweeper!</p>
 				</hgroup>
 			</div>
+            <a href="https://github.com/rdepena/KnockoutMineSweeper">
+                <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub">
+            </a>
 		</header>
 		<div class="max-width" id="content">
 			<div id="Watch">
@@ -35,12 +38,6 @@
 				</select>
 
 				<button class="topcoat-button--large--cta" data-bind="click: generateGrid">Start Game!</button>
-			</div>
-				<div style="display: none;" id="game-lost">
-				<span class="topcoat-notification">You Lost!!</span>
-			</div>
-			<div style="display: none;" class="max-width" id="game-won">
-				<span class="">You Won!!</span>
 			</div>
 			<table>
 			<tbody class="grid" data-bind="foreach: grid" >
